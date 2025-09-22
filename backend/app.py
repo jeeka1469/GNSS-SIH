@@ -9,6 +9,7 @@ import json
 from datetime import datetime, timedelta
 import pickle
 import urllib.request
+import requests
 from pathlib import Path
 
 app = Flask(__name__)
@@ -35,18 +36,37 @@ class GNSSPredictor:
             # If model doesn't exist locally, try to download it
             if not os.path.exists(model_path):
                 print("Model not found locally, checking for download URL...")
-                # You can set this as an environment variable in Railway
                 model_url = os.environ.get('MODEL_DOWNLOAD_URL')
                 if model_url:
                     print(f"Downloading model from: {model_url}")
                     try:
-                        urllib.request.urlretrieve(model_url, model_path)
-                        print("Model downloaded successfully")
+                        # Use requests for better error handling
+                        print("Starting model download...")
+                        response = requests.get(model_url, stream=True, timeout=300)
+                        response.raise_for_status()
+                        
+                        # Create directory if it doesn't exist
+                        os.makedirs(os.path.dirname(model_path), exist_ok=True)
+                        
+                        # Download the file
+                        with open(model_path, 'wb') as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                if chunk:
+                                    f.write(chunk)
+                        
+                        print(f"Model downloaded successfully to: {model_path}")
+                        print(f"Model file size: {os.path.getsize(model_path)} bytes")
+                        
+                    except requests.RequestException as e:
+                        print(f"Failed to download model (requests error): {e}")
+                        self.model = None
+                        return
                     except Exception as download_error:
-                        print(f"Failed to download model: {download_error}")
+                        print(f"Failed to download model (general error): {download_error}")
                         self.model = None
                         return
                 else:
+                    print("No MODEL_DOWNLOAD_URL environment variable found")
                     # Fallback to parent directory
                     model_path = os.path.join(os.path.dirname(__file__), '..', 'best_trained_lstm_model.keras')
             
