@@ -212,26 +212,62 @@ class GNSSPredictor:
             if len(scaled_data) < seq_len:
                 return {"error": f"Need at least {seq_len} data points"}
             
-            X = scaled_data[-seq_len:].reshape(1, seq_len, -1)
+            # Generate multiple predictions for different time horizons
+            predictions = {}
+            prediction_horizons = {
+                "15min": 1,
+                "30min": 2, 
+                "1hr": 4,
+                "2hr": 8,
+                "4hr": 16,
+                "8hr": 32,
+                "24hr": 96  # Full day prediction
+            }
             
-            prediction = self.model.predict(X, verbose=0)
+            current_sequence = scaled_data[-seq_len:].copy()
             
-            target_features = 4
-            pred_padded = np.zeros((prediction.shape[0] * prediction.shape[1], len(self.feature_cols)))
-            pred_padded[:, :target_features] = prediction.reshape(-1, target_features)
+            for horizon_name, steps in prediction_horizons.items():
+                # Reset to original sequence for each horizon
+                temp_sequence = current_sequence.copy()
+                
+                # Predict multiple steps ahead
+                predictions_list = []
+                for step in range(steps):
+                    X = temp_sequence[-seq_len:].reshape(1, seq_len, -1)
+                    prediction = self.model.predict(X, verbose=0)
+                    
+                    # Store prediction
+                    target_features = 4
+                    pred_padded = np.zeros((1, len(self.feature_cols)))
+                    pred_padded[0, :target_features] = prediction.reshape(target_features)
+                    pred_original = scaler.inverse_transform(pred_padded)[0, :target_features]
+                    
+                    predictions_list.append({
+                        "orbit_error_m": float(pred_original[0]),
+                        "clock_error_ns": float(pred_original[1]),
+                        "radial_error_m": float(pred_original[2]),
+                        "ephemeris_age_hours": float(pred_original[3])
+                    })
+                    
+                    # Update sequence for next prediction (rolling prediction)
+                    if step < steps - 1:  # Don't update on last iteration
+                        new_row = pred_padded[0].reshape(1, -1)
+                        temp_sequence = np.vstack([temp_sequence[1:], new_row])
+                
+                # Store predictions for this horizon
+                predictions[horizon_name] = predictions_list
             
-            pred_original = scaler.inverse_transform(pred_padded)[:, :target_features]
+            # Calculate confidence based on sequence length and data quality
+            confidence_score = min(0.95, 0.7 + (len(scaled_data) / 100) * 0.25)
+            confidence_level = "High" if confidence_score > 0.85 else "Medium" if confidence_score > 0.7 else "Low"
             
             result = {
                 "success": True,
-                "predictions": {
-                    "orbit_error_m": float(pred_original[0, 0]),
-                    "clock_error_ns": float(pred_original[0, 1]),
-                    "radial_error_m": float(pred_original[0, 2]),
-                    "ephemeris_age_hours": float(pred_original[0, 3])
-                },
-                "prediction_horizon": "1 hour ahead",
-                "model_confidence": "High"
+                "predictions": predictions,
+                "prediction_horizons": list(prediction_horizons.keys()),
+                "model_confidence": confidence_level,
+                "confidence_score": confidence_score,
+                "data_points_used": len(scaled_data)
             }
             
             return result
