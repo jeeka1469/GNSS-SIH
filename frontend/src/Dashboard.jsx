@@ -8,7 +8,9 @@ const Dashboard = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [apiUrl, setApiUrl] = useState("http://localhost:5000");
+  const [apiUrl, setApiUrl] = useState(
+    process.env.REACT_APP_API_URL || "http://localhost:5000"
+  );
 
   const satellites = Array.from(new Set(testData.map((d) => d.satellite_id)));
 

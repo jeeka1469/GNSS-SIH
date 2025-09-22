@@ -1,0 +1,187 @@
+{
+  "total_records": 21504,
+  "unique_satellites": 32,
+  "time_span": {
+    "start": "2025-07-06 00:00:00",
+    "end": "2025-07-12 23:45:00",
+    "duration_hours": 167.75
+  },
+  "orbit_error": {
+    "mean": 33999536.18654761,
+    "std": 11577872.923318103,
+    "min": 636546.5293434338,
+    "max": 53295230.27577185,
+    "median": 35586455.86761482,
+    "percentile_95": 50384942.15202012
+  },
+  "clock_error": {
+    "mean": 4092568.7393791135,
+    "std": 12032270.219352674,
+    "min": -23821719.30194424,
+    "max": 45685434.15706621,
+    "median": 4568532.1188531155,
+    "percentile_95": 16968865.19719653
+  },
+  "per_satellite": {
+    "G01": {
+      "records": 672,
+      "orbit_error_mean": 42973149.30080657,
+      "clock_error_mean": 12087872.186500134
+    },
+    "G02": {
+      "records": 672,
+      "orbit_error_mean": 27647034.145016126,
+      "clock_error_mean": 12889847.441819241
+    },
+    "G03": {
+      "records": 672,
+      "orbit_error_mean": 37087126.05201108,
+      "clock_error_mean": -1884866.6507523044
+    },
+    "G04": {
+      "records": 672,
+      "orbit_error_mean": 39311113.70925474,
+      "clock_error_mean": 6020751.510301815
+    },
+    "G05": {
+      "records": 672,
+      "orbit_error_mean": 22461345.763378456,
+      "clock_error_mean": -1305290.034049198
+    },
+    "G06": {
+      "records": 672,
+      "orbit_error_mean": 40393553.55682472,
+      "clock_error_mean": -22647013.912311576
+    },
+    "G07": {
+      "records": 672,
+      "orbit_error_mean": 28131249.506042022,
+      "clock_error_mean": -6292197.8738228595
+    },
+    "G08": {
+      "records": 672,
+      "orbit_error_mean": 21089687.807221252,
+      "clock_error_mean": 1948484.6887535448
+    },
+    "G09": {
+      "records": 672,
+      "orbit_error_mean": 33788312.12936191,
+      "clock_error_mean": 11378163.646053726
+    },
+    "G10": {
+      "records": 672,
+      "orbit_error_mean": 40394498.65477383,
+      "clock_error_mean": -14498577.020893821
+    },
+    "G11": {
+      "records": 672,
+      "orbit_error_mean": 28178730.28189486,
+      "clock_error_mean": 12879163.570895586
+    },
+    "G12": {
+      "records": 672,
+      "orbit_error_mean": 40189219.412120745,
+      "clock_error_mean": -1957946.7978914583
+    },
+    "G13": {
+      "records": 672,
+      "orbit_error_mean": 31354012.444875978,
+      "clock_error_mean": -293302.04438342236
+    },
+    "G14": {
+      "records": 672,
+      "orbit_error_mean": 34733022.94878697,
+      "clock_error_mean": 6817140.129111747
+    },
+    "G15": {
+      "records": 672,
+      "orbit_error_mean": 39036300.45785891,
+      "clock_error_mean": 5710672.481154199
+    },
+    "G16": {
+      "records": 672,
+      "orbit_error_mean": 35028448.09729668,
+      "clock_error_mean": 11853811.466452284
+    },
+    "G17": {
+      "records": 672,
+      "orbit_error_mean": 47345035.27656929,
+      "clock_error_mean": -23749072.460254993
+    },
+    "G18": {
+      "records": 672,
+      "orbit_error_mean": 27784006.343566556,
+      "clock_error_mean": 9525104.006269356
+    },
+    "G19": {
+      "records": 672,
+      "orbit_error_mean": 34663128.74738178,
+      "clock_error_mean": 4568531.305972275
+    },
+    "G20": {
+      "records": 672,
+      "orbit_error_mean": 26573550.236665793,
+      "clock_error_mean": -193508.5543378718
+    },
+    "G21": {
+      "records": 672,
+      "orbit_error_mean": 34283184.15533731,
+      "clock_error_mean": 44400373.28612061
+    },
+    "G22": {
+      "records": 672,
+      "orbit_error_mean": 25374322.029863764,
+      "clock_error_mean": 1305305.7087206605
+    },
+    "G23": {
+      "records": 672,
+      "orbit_error_mean": 46651422.008005984,
+      "clock_error_mean": 8968361.498561595
+    },
+    "G24": {
+      "records": 672,
+      "orbit_error_mean": 35413161.745109,
+      "clock_error_mean": 13439064.20347092
+    },
+    "G25": {
+      "records": 672,
+      "orbit_error_mean": 29911737.04914479,
+      "clock_error_mean": -2121106.247620969
+    },
+    "G26": {
+      "records": 672,
+      "orbit_error_mean": 25523341.741905235,
+      "clock_error_mean": 4316039.66078289
+    },
+    "G27": {
+      "records": 672,
+      "orbit_error_mean": 32749965.66056141,
+      "clock_error_mean": 348910.1381613151
+    },
+    "G28": {
+      "records": 672,
+      "orbit_error_mean": 40931814.32501652,
+      "clock_error_mean": -4032928.0137739996
+    },
+    "G29": {
+      "records": 672,
+      "orbit_error_mean": 35688149.19205765,
+      "clock_error_mean": 6900179.577304063
+    },
+    "G30": {
+      "records": 672,
+      "orbit_error_mean": 29420355.861453146,
+      "clock_error_mean": 14761359.305210885
+    },
+    "G31": {
+      "records": 672,
+      "orbit_error_mean": 41023957.92109865,
+      "clock_error_mean": 2019870.3801049278
+    },
+    "G32": {
+      "records": 672,
+      "orbit_error_mean": 32851221.40826185,
+      "clock_error_mean": 16945083.737054996
+    }
+  }
+}

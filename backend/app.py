@@ -8,6 +8,8 @@ from sklearn.preprocessing import RobustScaler
 import json
 from datetime import datetime, timedelta
 import pickle
+import urllib.request
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app)
@@ -29,9 +31,24 @@ class GNSSPredictor:
         try:
             # Try local path first (for Railway deployment)
             model_path = os.path.join(os.path.dirname(__file__), 'best_trained_lstm_model.keras')
+            
+            # If model doesn't exist locally, try to download it
             if not os.path.exists(model_path):
-                # Fallback to parent directory
-                model_path = os.path.join(os.path.dirname(__file__), '..', 'best_trained_lstm_model.keras')
+                print("Model not found locally, checking for download URL...")
+                # You can set this as an environment variable in Railway
+                model_url = os.environ.get('MODEL_DOWNLOAD_URL')
+                if model_url:
+                    print(f"Downloading model from: {model_url}")
+                    try:
+                        urllib.request.urlretrieve(model_url, model_path)
+                        print("Model downloaded successfully")
+                    except Exception as download_error:
+                        print(f"Failed to download model: {download_error}")
+                        self.model = None
+                        return
+                else:
+                    # Fallback to parent directory
+                    model_path = os.path.join(os.path.dirname(__file__), '..', 'best_trained_lstm_model.keras')
             
             if os.path.exists(model_path):
                 print(f"Loading model from: {model_path}")
@@ -50,6 +67,7 @@ class GNSSPredictor:
                 print("Model loaded successfully")
             else:
                 print("Model file not found")
+                self.model = None
         except Exception as e:
             print(f"Error loading model: {e}")
             # Try alternative loading method
