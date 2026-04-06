@@ -37,4 +37,4 @@ Current areas of work include:
 - Building stronger backend APIs for deployment
 - Improving dashboard visualizations
 
-The main idea behind this project is to create a system that can predict and reduce GNSS positioning errors in real time, making navigation and satellite-based systems more accurate and reliable.
+This is one of my favourite projects
